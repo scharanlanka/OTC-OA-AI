@@ -1,0 +1,17 @@
+pandas
+numpy
+ipykernel
+openpyxl
+matplotlib
+seaborn
+scikit-learn
+torch
+torchvision
+torchaudio
+imblearn
+lightgbm
+tensorflow
+streamlit
+optuna
+catboost
+shap
