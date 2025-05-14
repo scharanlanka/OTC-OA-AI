@@ -21,7 +21,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ─── CONFIG ────────────────────────────────────────────────────────────────────
-
 MODEL_URL = "https://otc-only-model.s3.amazonaws.com/otc_classifier_no_postpain.pkl"
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
@@ -63,7 +62,7 @@ st.markdown(
 st.text("This AI decision-making model recommends the best OTC medications for indivduals with knee joint pain.")
 # ─── PATIENT PROFILE ───────────────────────────────────────────────────────────
 st.header("Patient Profile")
-st.text("About You:")
+st.header("About You:")
 age       = st.text_input("Age (50 or older)", value="")
 gender = st.selectbox(
     "Gender",
@@ -111,7 +110,7 @@ pain_time = st.selectbox("When do you feel pain?", [
     "", "When you are moving or bending your knee, and getting better when you rest.", "Feel more pain first thing in the morning when you wake up.", "Feel more pain at night, especially if you were physically active earlier that day.",
     "Feel more pain during bad weather.", "Feel more pain when you are stressed/anxious/tired.", "Feel more pain when you are unwell.", "None of the above"])
 
-symptoms = st.multiselect("Accompanying symptoms", [
+symptoms = st.multiselect("Is your knee pain accompanied by anything below?  You can select more than one answer.", [
     "", "Dull pain", "Throbbing pain", "Sharp pain", "Swelling", "Stiffness", "Redness of skin (Erythema) and warmth to the touch",
     "Instability or weakness (having trouble walking, limping) ", "Popping or crunching noises", "Limited range of motion (inability to fully straighten the knee)",
     "Locking of the knee joint", "Inability to bear weight", "Fever", "Disabling pain", "Others", "None"], placeholder="")
@@ -121,7 +120,30 @@ sleep = st.selectbox("Do you experience any of these?", ["", "Abnormal sleep pat
 
 
 # ─── PREDICTION ────────────────────────────────────────────────────────────────
+import streamlit as st
+
+# Inject custom CSS
+st.markdown("""
+    <style>
+    div.stButton > button {
+        background-color: #ff4b4b;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    div.stButton > button:hover {
+        background-color: #e04141;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Streamlit button (works without reload)
 if st.button("Get OTC Recommendations"):
+    
     required = [age, gender, race, ethnicity, weight, height,
                 pain_level, pain_location, pain_time, sleep, cause]
     if not all(required):
